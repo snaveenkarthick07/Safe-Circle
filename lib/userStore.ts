@@ -55,7 +55,28 @@ export function getStoredUsers(): StoredUserRecord[] {
       localStorage.setItem(STORAGE_USERS_KEY, JSON.stringify(initialUsers));
       return initialUsers;
     }
-    return JSON.parse(raw);
+    const parsed: StoredUserRecord[] = JSON.parse(raw);
+    // Sanitize any legacy "Priya Sharma" records from existing localStorage
+    let updated = false;
+    const sanitized = parsed.map(u => {
+      if (u.name === 'Priya Sharma' || u.email === 'priya.sharma@example.com') {
+        updated = true;
+        return {
+          ...u,
+          name: 'SafeCircle Member',
+          email: 'member@safecircle.org',
+          phone: '+91 98765 00000',
+          avatar: '',
+          emergencyContacts: [],
+          emergencyContactsCount: 0,
+        };
+      }
+      return u;
+    });
+    if (updated) {
+      localStorage.setItem(STORAGE_USERS_KEY, JSON.stringify(sanitized));
+    }
+    return sanitized;
   } catch (err) {
     console.error('Failed to read users from localStorage:', err);
     return [];

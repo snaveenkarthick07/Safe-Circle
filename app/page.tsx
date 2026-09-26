@@ -63,12 +63,12 @@ export default function HomePage() {
   // Authentication Module State
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [authRole, setAuthRole] = useState<'user' | 'guardian' | 'authority'>('user');
-  const [emailOrPhone, setEmailOrPhone] = useState('priya.safety@safecircle.org');
-  const [password, setPassword] = useState('SafetyFirst2026!');
+  const [emailOrPhone, setEmailOrPhone] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [fullName, setFullName] = useState('Priya Sharma');
-  const [city, setCity] = useState('Coimbatore, Tamil Nadu');
-  const [emergencyPhone, setEmergencyPhone] = useState('+91 98765 43210');
+  const [fullName, setFullName] = useState('');
+  const [city, setCity] = useState('Bengaluru');
+  const [emergencyPhone, setEmergencyPhone] = useState('');
   const [consentLocation, setConsentLocation] = useState(true);
   const [authSuccessMsg, setAuthSuccessMsg] = useState('');
 
@@ -195,7 +195,7 @@ export default function HomePage() {
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="e.g. Priya Sharma"
+                  placeholder="e.g. Your Full Name"
                   className="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500/50 transition-all placeholder:text-slate-500"
                 />
               </div>

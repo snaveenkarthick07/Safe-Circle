@@ -72,7 +72,7 @@ export default function GuardianDashboard() {
             <ShieldAlert className="w-10 h-10" />
             <div>
               <h3 className="text-xl font-black">
-                🚨 EMERGENCY DISTRESS ALERT: Priya Sharma Triggered SOS!
+                🚨 EMERGENCY DISTRESS ALERT: {currentUser.name || 'Protected Ward'} Triggered SOS!
               </h3>
               <p className="text-xs text-red-100 mt-0.5">
                 Location: {userLocation.address} ({userLocation.lat}, {userLocation.lng}) • Audio recording streaming
@@ -82,10 +82,10 @@ export default function GuardianDashboard() {
 
           <div className="flex items-center gap-3">
             <a
-              href="tel:+919876543210"
+              href={`tel:${currentUser.phone || '+919876500000'}`}
               className="px-5 py-2.5 rounded-xl bg-white text-red-600 font-bold text-xs shadow-md"
             >
-              Call Priya (+91 98765 43210)
+              Call {currentUser.name || 'Member'} ({currentUser.phone || '+91 98765 00000'})
             </a>
             <a
               href="tel:112"
@@ -102,11 +102,11 @@ export default function GuardianDashboard() {
         {/* Left Column: Linked Circle Cards (Col 5) */}
         <div className="lg:col-span-5 space-y-4">
           <h2 className="font-heading font-bold text-lg text-foreground">
-            Linked Circle Members ({guardians.length})
+            Linked Circle Members ({guardians.length + 1})
           </h2>
 
           <div className="space-y-3">
-            {/* Primary Protected User: Priya Sharma */}
+            {/* Primary Protected Member */}
             <div
               className={`p-5 rounded-3xl border-2 transition-all cursor-pointer ${
                 selectedContact?.id === 'usr_main'
@@ -117,12 +117,10 @@ export default function GuardianDashboard() {
             >
               <div className="flex items-center justify-between pb-3 border-b border-border/60">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-pink-600 to-rose-600 text-white flex items-center justify-center font-black text-base shadow-md">
-                    PS
-                  </div>
+                  <UserAvatar user={currentUser} size="lg" />
                   <div>
-                    <h3 className="font-bold text-base text-foreground">Priya Sharma</h3>
-                    <span className="text-xs text-muted-foreground">Daughter • Primary Member</span>
+                    <h3 className="font-bold text-base text-foreground">{currentUser.name || 'Protected Member'}</h3>
+                    <span className="text-xs text-muted-foreground">Primary Protected User • Linked Circle</span>
                   </div>
                 </div>
 

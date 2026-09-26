@@ -605,7 +605,7 @@ const TRANSLATIONS = {
    2. MOCK DATASETS & CONSTANTS
    ========================================================================== */
 const INITIAL_GUARDIANS = [
-  { id: 'g1', name: 'Dr. Priya Sharma', relation: 'Sister', phone: '+91 98765 43210', priority: 1, battery: 92, status: 'Active' },
+  { id: 'g1', name: 'Dr. Neha Verma', relation: 'Sister', phone: '+91 98765 43210', priority: 1, battery: 92, status: 'Active' },
   { id: 'g2', name: 'Rajesh Sen', relation: 'Father', phone: '+91 94451 88921', priority: 2, battery: 78, status: 'Active' },
   { id: 'g3', name: 'Ananya Rao', relation: 'Friend / Roommate', phone: '+91 91234 56789', priority: 3, battery: 64, status: 'Standby' }
 ];

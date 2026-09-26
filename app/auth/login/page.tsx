@@ -25,10 +25,10 @@ export default function LoginPage() {
   const { login, switchRole } = useAuth();
 
   const [authMode, setAuthMode] = useState<'password' | 'otp'>('password');
-  const [email, setEmail] = useState('priya.sharma@example.com');
-  const [password, setPassword] = useState('Password@123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [phone, setPhone] = useState('+91 98765 43210');
+  const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -100,7 +100,7 @@ export default function LoginPage() {
         router.push('/dashboard');
       } else {
         // If not found, log in with demo fallback
-        await login('priya.sharma@example.com', undefined, 'user');
+        await login('', undefined, 'user');
         router.push('/dashboard');
       }
     } catch (err: any) {
@@ -138,7 +138,7 @@ export default function LoginPage() {
             className="p-3 rounded-2xl bg-muted/50 hover:bg-pink-500/10 border border-border hover:border-pink-500/30 text-left transition-all group"
           >
             <div className="font-bold text-xs text-foreground group-hover:text-pink-600">👩 Woman / User</div>
-            <div className="text-[10px] text-muted-foreground">Priya Sharma (Dashboard & SOS)</div>
+            <div className="text-[10px] text-muted-foreground">Member Portal (Dashboard & SOS)</div>
           </button>
 
           <button
@@ -331,7 +331,7 @@ export default function LoginPage() {
             type="button"
             onClick={async () => {
               setIsSubmitting(true);
-              await login('priya.sharma@example.com', undefined, 'user');
+              await login('', undefined, 'user');
               router.push('/dashboard');
             }}
             className="w-full py-3 rounded-2xl bg-muted/60 hover:bg-muted border border-border text-foreground font-semibold text-xs flex items-center justify-center gap-2 transition-colors"

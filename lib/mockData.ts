@@ -3,24 +3,20 @@ import { User, GuardianContact, SafePoint, IncidentReport, EvidenceItem, RouteOp
 export const mockUsers: Record<string, User> = {
   user: {
     id: 'usr_001',
-    name: 'Priya Sharma',
-    email: 'priya.sharma@example.com',
-    phone: '+91 98765 43210',
+    name: 'SafeCircle Member',
+    email: 'member@safecircle.org',
+    phone: '+91 98765 00000',
     role: 'user',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+    avatar: '',
     city: 'Bengaluru',
-    campusOrg: 'Christ University Campus',
-    emergencyContactsCount: 3,
-    emergencyContacts: [
-      { id: 'ec_1', name: 'Rajesh Sharma (Dad)', phone: '+91 98765 11223', relation: 'Dad', priority: 1 },
-      { id: 'ec_2', name: 'Sunita Sharma (Mom)', phone: '+91 98765 22334', relation: 'Mom', priority: 2 },
-      { id: 'ec_3', name: 'Ananya Verma (Roommate)', phone: '+91 98765 33445', relation: 'Friend', priority: 3 },
-    ],
+    campusOrg: 'SafeCircle Network',
+    emergencyContactsCount: 0,
+    emergencyContacts: [],
     consentPoliceDispatch: false, // Privacy default: No automatic police dispatch unless chosen
     consentAudioRecording: true,
     consentLocationTracking: true,
     nightSafetyMode: true,
-    collegeSafetyMode: true,
+    collegeSafetyMode: false,
     discreetPin: '1234',
   },
   guardian: {

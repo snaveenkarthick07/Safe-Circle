@@ -46,8 +46,8 @@ export default function AdminDashboard() {
   ]);
 
   const [auditLogs] = useState([
-    { id: 'log_01', action: 'Emergency SOS Broadcast Dispatched', user: 'Priya Sharma (usr_001)', time: 'Today 18:30:12', ip: '103.21.244.12', status: 'SUCCESS' },
-    { id: 'log_02', action: 'Evidence Locker SHA-256 Dossier Exported', user: 'Priya Sharma (usr_001)', time: 'Today 17:45:00', ip: '103.21.244.12', status: 'SUCCESS' },
+    { id: 'log_01', action: 'Emergency SOS Broadcast Dispatched', user: 'Verified Member (usr_001)', time: 'Today 18:30:12', ip: '103.21.244.12', status: 'SUCCESS' },
+    { id: 'log_02', action: 'Evidence Locker SHA-256 Dossier Exported', user: 'Verified Member (usr_001)', time: 'Today 17:45:00', ip: '103.21.244.12', status: 'SUCCESS' },
     { id: 'log_03', action: 'Patrol Unit Dispatch Logged (#BLR-PK-442)', user: 'Inspector Anita Desai (aut_001)', time: 'Today 16:10:22', ip: '49.207.210.98', status: 'SUCCESS' },
     { id: 'log_04', action: 'Safe Haven Application Submitted', user: 'MedPlus Manager (sp_04)', time: 'Today 14:02:11', ip: '122.179.88.5', status: 'SUCCESS' }
   ]);

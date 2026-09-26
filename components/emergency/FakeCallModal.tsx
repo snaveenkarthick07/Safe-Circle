@@ -79,7 +79,7 @@ const CALLER_PRESETS: CallerPreset[] = [
     name: 'Vikram Malhotra (Director)',
     number: '+91 98220 54321',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80',
-    defaultMessage: 'Hi Priya, sorry to call you so late, but we have an urgent project escalation on the client server. Are you near your laptop? Please jump on the call right away.',
+    defaultMessage: 'Hi there, sorry to call you so late, but we have an urgent project escalation on the client server. Are you near your laptop? Please jump on the call right away.',
     voiceType: 'authority',
     icon: Briefcase,
   },
