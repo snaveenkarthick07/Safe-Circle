@@ -1,5 +1,13 @@
 export type UserRole = 'user' | 'guardian' | 'authority' | 'organization' | 'admin';
 
+export interface EmergencyContactInput {
+  id: string;
+  name: string;
+  phone: string;
+  relation?: string;
+  priority?: 1 | 2 | 3;
+}
+
 export interface User {
   id: string;
   name: string;
@@ -10,6 +18,7 @@ export interface User {
   city: string;
   campusOrg?: string;
   emergencyContactsCount?: number;
+  emergencyContacts?: EmergencyContactInput[];
   consentPoliceDispatch: boolean;
   consentAudioRecording: boolean;
   consentLocationTracking: boolean;

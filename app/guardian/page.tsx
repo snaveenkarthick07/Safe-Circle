@@ -18,8 +18,10 @@ import {
   Share2
 } from 'lucide-react';
 import { SafetyMap } from '@/components/maps/SafetyMap';
+import { UserAvatar } from '@/components/common/UserAvatar';
 
 export default function GuardianDashboard() {
+  const { currentUser } = useAuth();
   const { guardians, toggleGuardianLink, activeJourney, isSOSActive, isEmergencyTriggered, userLocation } = useApp();
   const [selectedContact, setSelectedContact] = useState(guardians[0]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -45,6 +47,14 @@ export default function GuardianDashboard() {
         </div>
 
         <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 p-1.5 pr-3.5 rounded-2xl bg-card border border-border shadow-xs">
+            <UserAvatar user={currentUser} size="sm" showBadge />
+            <div className="text-left hidden sm:block">
+              <div className="text-xs font-bold leading-tight text-foreground">{currentUser.name}</div>
+              <div className="text-[10px] text-muted-foreground capitalize">{currentUser.role}</div>
+            </div>
+          </div>
+
           <button
             onClick={() => setIsAddModalOpen(true)}
             className="px-5 py-2.5 rounded-2xl bg-primary text-primary-foreground font-bold text-xs sm:text-sm shadow-md flex items-center gap-2 hover:opacity-90"

@@ -29,13 +29,16 @@ import {
   Plus,
   PhoneOff,
   Zap,
-  Sparkles
+  Sparkles,
+  Camera,
+  User as UserIcon
 } from 'lucide-react';
 import { ReportIncidentModal } from '@/components/incidents/ReportIncidentModal';
 import { AcousticTriggerCard } from '@/components/safety/AcousticTriggerCard';
+import { UserAvatar } from '@/components/common/UserAvatar';
 
 export default function UserDashboard() {
-  const { currentUser, updateUserSettings } = useAuth();
+  const { currentUser, updateUserSettings, openProfileModal } = useAuth();
   const { 
     userLocation, 
     guardians, 
@@ -61,6 +64,21 @@ export default function UserDashboard() {
     setTimeout(() => setCopiedLink(false), 2500);
   };
 
+  // Synchronize custom emergency contacts saved on user profile with Guardian Circle
+  const displayGuardians = (currentUser.emergencyContacts && currentUser.emergencyContacts.length > 0)
+    ? currentUser.emergencyContacts.map((ec, idx) => ({
+        id: ec.id || `ec_${idx}`,
+        name: ec.name,
+        relation: ec.relation || 'Guardian',
+        phone: ec.phone,
+        email: '',
+        priority: (ec.priority || 1) as 1 | 2 | 3,
+        isLinked: true,
+        batteryLevel: 92 - (idx * 5) % 15,
+        lastSeen: 'Active now',
+      }))
+    : guardians;
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* 1. Top Safety Status & Location Bar */}
@@ -70,13 +88,20 @@ export default function UserDashboard() {
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-start sm:items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/10">
-              <ShieldCheck className="w-8 h-8" />
-            </div>
+            <button
+              onClick={openProfileModal}
+              title="Click to view & edit profile"
+              className="relative group cursor-pointer"
+            >
+              <UserAvatar user={currentUser} size="xl" showBadge />
+              <div className="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                <Camera className="w-5 h-5 text-white" />
+              </div>
+            </button>
             <div>
               <div className="flex items-center gap-2.5">
-                <h1 className="text-2xl sm:text-3xl font-heading font-black text-white tracking-tight">
-                  You are currently safe
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-heading font-black text-white tracking-tight">
+                  Welcome back, {currentUser.name.split(' ')[0]}
                 </h1>
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
               </div>
@@ -88,6 +113,12 @@ export default function UserDashboard() {
                 <span className="text-emerald-400 font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px]">
                   Zone: Normal (🟢)
                 </span>
+                <button
+                  onClick={openProfileModal}
+                  className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold underline decoration-indigo-400/50 hover:decoration-indigo-300"
+                >
+                  Edit Profile
+                </button>
               </p>
             </div>
           </div>
@@ -426,17 +457,26 @@ export default function UserDashboard() {
               <Users className="w-5 h-5 text-indigo-400" />
               <h3 className="font-heading font-bold text-lg text-slate-100">Guardian Circle</h3>
             </div>
-            <Link
-              href="/guardian"
-              className="text-xs font-semibold text-indigo-400 flex items-center gap-1 hover:underline"
-            >
-              <span>Manage Circle ({guardians.length})</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={openProfileModal}
+                className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition-colors"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Add / Edit</span>
+              </button>
+              <Link
+                href="/guardian"
+                className="text-xs font-semibold text-indigo-400 flex items-center gap-1 hover:underline"
+              >
+                <span>Live View ({displayGuardians.length})</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
 
           <div className="space-y-2.5">
-            {guardians.map((g) => (
+            {displayGuardians.map((g) => (
               <div
                 key={g.id}
                 className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-slate-700/80 flex items-center justify-between gap-3 shadow-md transition-all duration-200"

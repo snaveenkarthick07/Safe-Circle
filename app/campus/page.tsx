@@ -5,6 +5,7 @@ import { useApp } from '@/context/AppContext';
 import { useAuth } from '@/context/AuthContext';
 import { mockCampusAlerts } from '@/lib/mockData';
 import { CampusSafetyAlert } from '@/types';
+import { UserAvatar } from '@/components/common/UserAvatar';
 import { 
   GraduationCap, 
   ShieldCheck, 
@@ -72,6 +73,14 @@ export default function CampusDashboard() {
         </div>
 
         <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 p-1.5 pr-3.5 rounded-2xl bg-card border border-border shadow-xs">
+            <UserAvatar user={currentUser} size="sm" showBadge />
+            <div className="text-left hidden sm:block">
+              <div className="text-xs font-bold leading-tight text-foreground">{currentUser.name}</div>
+              <div className="text-[10px] text-muted-foreground capitalize">{currentUser.role}</div>
+            </div>
+          </div>
+
           <span className="text-xs font-bold px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5">
             <ShieldCheck className="w-3.5 h-3.5" />
             Hostel Safety Grid Online

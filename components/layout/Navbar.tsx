@@ -28,9 +28,13 @@ import {
   X,
   AlertCircle,
   Globe,
-  LogIn
+  LogIn,
+  LogOut,
+  Camera
 } from 'lucide-react';
 import { TRANSLATIONS, SupportedLanguage } from '@/lib/translations';
+import { UserAvatar } from '@/components/common/UserAvatar';
+import { UserProfileModal } from '@/components/profile/UserProfileModal';
 
 const ROLE_OPTIONS: { role: UserRole; label: string; icon: string; desc: string; path: string }[] = [
   { role: 'user', label: 'Woman / User', icon: '👩', desc: 'SOS, Journey Guardian & Safe Routes', path: '/dashboard' },
@@ -42,7 +46,15 @@ const ROLE_OPTIONS: { role: UserRole; label: string; icon: string; desc: string;
 
 export function Navbar() {
   const pathname = usePathname();
-  const { currentUser, currentRole, switchRole } = useAuth();
+  const { 
+    currentUser, 
+    currentRole, 
+    switchRole, 
+    logout, 
+    isProfileModalOpen, 
+    openProfileModal, 
+    closeProfileModal 
+  } = useAuth();
   const { 
     theme, 
     toggleTheme, 
@@ -240,14 +252,9 @@ export function Navbar() {
           <div className="relative">
             <button
               onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
-              className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-sm hover:bg-slate-800/80 transition-all text-xs font-semibold"
+              className="flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-sm hover:bg-slate-800/80 transition-all text-xs font-semibold"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={currentUser.avatar}
-                alt={currentUser.name}
-                className="w-7 h-7 rounded-full object-cover ring-2 ring-indigo-500/40"
-              />
+              <UserAvatar user={currentUser} size="xs" ring={false} />
               <div className="hidden md:flex flex-col text-left">
                 <span className="text-xs font-bold leading-none text-slate-100">{currentUser.name.split(' ')[0]}</span>
                 <span className="text-[10px] text-slate-400 capitalize">{currentUser.role}</span>
@@ -261,22 +268,38 @@ export function Navbar() {
                 className="absolute right-0 mt-2 w-64 rounded-2xl bg-slate-900 border border-slate-800 p-2 shadow-2xl z-50 text-xs animate-in fade-in zoom-in-95"
                 onClick={() => setRoleDropdownOpen(false)}
               >
-                <div className="p-3 border-b border-slate-800 mb-1">
-                  <p className="font-bold text-slate-100">{currentUser.name}</p>
-                  <p className="text-[11px] text-slate-400 truncate">{currentUser.email}</p>
-                  <div className="mt-2 inline-block px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase border border-indigo-500/20">
-                    Role: {currentUser.role}
+                <div className="p-3 border-b border-slate-800 mb-1 flex items-center gap-3">
+                  <UserAvatar user={currentUser} size="md" showBadge />
+                  <div className="min-w-0 flex-1">
+                    <p className="font-bold text-slate-100 truncate">{currentUser.name}</p>
+                    <p className="text-[11px] text-slate-400 truncate">{currentUser.email}</p>
+                    <div className="mt-1 inline-block px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase border border-indigo-500/20">
+                      Role: {currentUser.role}
+                    </div>
                   </div>
                 </div>
 
                 <div className="space-y-0.5">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setRoleDropdownOpen(false);
+                      openProfileModal();
+                    }}
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium text-left transition-colors"
+                  >
+                    <Camera className="w-4 h-4 text-indigo-400" />
+                    <span>Edit Profile & Photo</span>
+                  </button>
+
                   <Link
                     href="/profile"
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted font-medium"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium transition-colors"
                   >
-                    <UserIcon className="w-4 h-4 text-primary" />
+                    <UserIcon className="w-4 h-4 text-pink-500" />
                     <span>Privacy & Safety Settings</span>
                   </Link>
+
                   <Link
                     href={
                       currentRole === 'guardian' ? '/guardian' :
@@ -284,27 +307,42 @@ export function Navbar() {
                       currentRole === 'organization' ? '/campus' :
                       currentRole === 'admin' ? '/admin' : '/dashboard'
                     }
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted font-medium"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium transition-colors"
                   >
                     <ShieldCheck className="w-4 h-4 text-emerald-500" />
                     <span>Role Dashboard</span>
                   </Link>
                 </div>
 
-                <div className="pt-2 mt-1 border-t border-border">
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase px-2 mb-1">Switch View Role</p>
+                <div className="pt-2 mt-1 border-t border-slate-800">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase px-2 mb-1">Switch View Role</p>
                   {ROLE_OPTIONS.map((item) => (
                     <button
                       key={item.role}
                       onClick={() => switchRole(item.role)}
-                      className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between ${
-                        currentRole === item.role ? 'bg-primary text-primary-foreground font-bold' : 'hover:bg-muted text-muted-foreground'
+                      className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between transition-colors ${
+                        currentRole === item.role ? 'bg-indigo-600 text-white font-bold' : 'hover:bg-slate-800 text-slate-400'
                       }`}
                     >
                       <span>{item.icon} {item.label}</span>
                       {currentRole === item.role && <span>✓</span>}
                     </button>
                   ))}
+                </div>
+
+                {/* Sign Out Option */}
+                <div className="pt-1.5 mt-1 border-t border-slate-800">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setRoleDropdownOpen(false);
+                      logout();
+                    }}
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 font-bold transition-colors"
+                  >
+                    <LogOut className="w-4 h-4 text-rose-500" />
+                    <span>Sign Out of SafeCircle</span>
+                  </button>
                 </div>
               </div>
             )}
@@ -322,7 +360,28 @@ export function Navbar() {
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-slate-950/95 border-b border-slate-800/80 p-4 space-y-2 animate-in slide-in-from-top-2 backdrop-blur-xl">
+        <div className="lg:hidden bg-slate-950/95 border-b border-slate-800/80 p-4 space-y-3 animate-in slide-in-from-top-2 backdrop-blur-xl">
+          {/* Mobile Active User Card */}
+          <div className="p-3 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <UserAvatar user={currentUser} size="md" showBadge />
+              <div>
+                <p className="font-bold text-sm text-white">{currentUser.name}</p>
+                <p className="text-[11px] text-slate-400">{currentUser.email}</p>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                openProfileModal();
+              }}
+              className="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold"
+              title="Edit Profile"
+            >
+              <Camera className="w-4 h-4" />
+            </button>
+          </div>
+
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;
@@ -347,8 +406,28 @@ export function Navbar() {
               </Link>
             );
           })}
+
+          {/* Mobile Sign Out Button */}
+          <div className="pt-2 border-t border-slate-800">
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                logout();
+              }}
+              className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold transition-colors"
+            >
+              <LogOut className="w-4 h-4 text-rose-500" />
+              <span>Sign Out of SafeCircle</span>
+            </button>
+          </div>
         </div>
       )}
+
+      {/* Interactive User Profile Modal */}
+      <UserProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={closeProfileModal}
+      />
     </header>
   );
 }
