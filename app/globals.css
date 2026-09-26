@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 336 84% 57%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 336 84% 57%;
+
+    --radius: 0.85rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%; /* slate-950 */
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 47.4% 11.2%; /* slate-900 */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 47.4% 11.2%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 238.7 83.5% 66.7%; /* indigo-500 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217.2 32.6% 17.5%; /* slate-800 */
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%; /* slate-800 */
+    --muted-foreground: 215.4 16.3% 65%; /* slate-400 */
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 346.8 77.2% 49.8%; /* rose-600 */
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%; /* slate-800 */
+    --input: 217.2 32.6% 17.5%;
+    --ring: 238.7 83.5% 66.7%;
+  }
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Elite Glassmorphism Utility Classes */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+}
+
+.glass-card {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(51, 65, 85, 0.9);
+}
+
+/* Micro-interaction Button Press */
+.btn-press {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-press:active {
+  transform: scale(0.96);
+}
+
+/* SOS Pulsing Ring Animation */
+.sos-beacon {
+  position: relative;
+}
+.sos-beacon::before, .sos-beacon::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 9999px;
+  background: rgba(225, 29, 72, 0.35);
+  animation: beacon-ripple 2.4s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+  z-index: -1;
+}
+.sos-beacon::after {
+  animation-delay: 1.2s;
+}
+
+@keyframes beacon-ripple {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Radar scanner sweep */
+.radar-grid {
+  background-image: 
+    radial-gradient(circle, rgba(236, 72, 153, 0.15) 1px, transparent 1px),
+    linear-gradient(to right, rgba(236, 72, 153, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(236, 72, 153, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px, 48px 48px, 48px 48px;
+}
+
+/* Leaflet map production-grade fixups */
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 500px;
+  border-radius: inherit;
+  z-index: 10;
+  font-family: inherit;
+  background-color: #1e293b;
+}
+
+.dark .leaflet-container {
+  background-color: #0b0f19;
+}
+
+/* Fix Tailwind Preflight image collision that causes squished or blank tiles */
+.leaflet-container img {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.leaflet-tile-pane img {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.leaflet-tile {
+  visibility: inherit !important;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Custom Marker Styling */
+.custom-map-pin {
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.custom-map-pin:hover {
+  transform: scale(1.15) translateY(-2px);
+  z-index: 9999 !important;
+}
+
+/* User Live Radar Pin */
+.user-radar-pin {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-radar-pin .pulse-wave {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  background: rgba(236, 72, 153, 0.35);
+  animation: radar-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.user-radar-pin .core-dot {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #db2777;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 14px rgba(219, 39, 119, 0.8), 0 2px 6px rgba(0,0,0,0.4);
+}
+
+@keyframes radar-ping {
+  75%, 100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* Leaflet Popup Sleek Glassmorphism & Theme Styling */
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  border-radius: 1.25rem !important;
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.08) !important;
+  padding: 0 !important;
+  overflow: hidden;
+  color: #0f172a !important;
+}
+
+.dark .leaflet-popup-content-wrapper {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border-color: rgba(51, 65, 85, 0.7) !important;
+  color: #f8fafc !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.96) !important;
+}
+
+.dark .leaflet-popup-tip {
+  background: rgba(15, 23, 42, 0.95) !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  top: 10px !important;
+  right: 12px !important;
+  color: #94a3b8 !important;
+  font-size: 18px !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 9999px !important;
+  transition: all 0.15s ease !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+  color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Remove default leaflet zoom control box shadow for clean custom controls */
+.leaflet-bar {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.5);
+}
+
