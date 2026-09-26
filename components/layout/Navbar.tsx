@@ -73,11 +73,11 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [moreToolsOpen, setMoreToolsOpen] = useState(false);
 
-  // Core high-frequency navigation links shown in top bar
+  // Core high-frequency navigation links shown in top bar with concise, elegant labels
   const primaryNavLinks = [
-    { href: '/', label: t.navDashboard, icon: Shield },
-    { href: '/map', label: t.navMap, icon: MapPin },
-    { href: '/journey', label: t.navJourney, icon: Navigation, badge: activeJourney ? 'LIVE' : undefined },
+    { href: '/', label: 'Dashboard', icon: Shield },
+    { href: '/map', label: t.navMap || 'Safety Map', icon: MapPin },
+    { href: '/journey', label: 'Journey', icon: Navigation, badge: activeJourney ? 'LIVE' : undefined },
     { href: '/call-shield', label: 'Call Shield', icon: ShieldAlert, badge: 'AI' },
   ];
 
@@ -126,9 +126,9 @@ export function Navbar() {
       </div>
 
       {/* Main Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Left: SafeCircle Brand Logo & Primary Nav Links */}
-        <div className="flex items-center gap-4 lg:gap-6 min-w-0">
+        <div className="flex items-center gap-2 xl:gap-4 shrink-0">
           <Link href="/" className="flex items-center gap-2.5 group shrink-0">
             <div className="relative">
               <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-rose-600 via-pink-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-rose-600/30 ring-2 ring-rose-500/20 group-hover:scale-105 transition-all duration-200">
@@ -150,7 +150,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Primary Nav Links */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1 shrink-0">
             {primaryNavLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;
@@ -228,15 +228,16 @@ export function Navbar() {
         </div>
 
         {/* Right Tools & User Profile Hub */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-          {/* Fake Call Quick Tool */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Fake Call Quick Tool - Clean, distinct badge with zero overlap */}
           <button
+            type="button"
             onClick={openFakeCallSettings}
-            title="Configure & Schedule Fake Call"
-            className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 border border-indigo-500/20 text-xs font-semibold transition-all active:scale-95"
+            title="Configure & Trigger Fake Call Simulator"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 hover:text-white border border-indigo-500/30 text-xs font-bold transition-all active:scale-95 shrink-0 shadow-sm"
           >
-            <PhoneCall className="w-3.5 h-3.5" />
-            <span className="hidden xl:inline">Fake Call</span>
+            <PhoneCall className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+            <span className="whitespace-nowrap">Fake Call</span>
           </button>
 
           {/* Discreet Calculator Mode */}

@@ -398,10 +398,10 @@ export function FakeCallModal() {
 
               {/* Activation Delay Timer */}
               <div>
-                <label className="block text-[11px] font-extrabold uppercase text-muted-foreground tracking-wider mb-1.5 flex items-center justify-between">
+                <label className="block text-[11px] font-bold uppercase text-slate-300 tracking-wider mb-1.5 flex items-center justify-between">
                   <span>Activation Delay Timer</span>
-                  <span className="text-[10px] text-indigo-500 font-bold">
-                    {delayInput === 0 ? 'Rings Immediately' : `Rings in ${delayInput}s`}
+                  <span className="text-xs text-indigo-400 font-bold">
+                    {delayInput === 0 ? '⚡ Rings Immediately' : `⏱ Rings in ${delayInput}s`}
                   </span>
                 </label>
                 <div className="grid grid-cols-5 gap-1.5">
@@ -418,8 +418,8 @@ export function FakeCallModal() {
                       onClick={() => setDelayInput(item.sec)}
                       className={`py-2 rounded-xl text-xs font-bold border transition-all ${
                         delayInput === item.sec
-                          ? 'bg-primary text-primary-foreground border-primary shadow-sm'
-                          : 'bg-muted/40 border-border text-muted-foreground hover:text-foreground'
+                          ? 'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30 font-black'
+                          : 'bg-slate-950/70 border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800'
                       }`}
                     >
                       {item.label}
@@ -431,15 +431,15 @@ export function FakeCallModal() {
               {/* Voice Dialogue Script */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-[11px] font-extrabold uppercase text-muted-foreground tracking-wider">
+                  <label className="block text-[11px] font-bold uppercase text-slate-300 tracking-wider">
                     Simulated Voice Script
                   </label>
                   <button
                     type="button"
                     onClick={handleTestAudio}
-                    className="text-[11px] font-bold text-indigo-500 hover:text-indigo-400 flex items-center gap-1 transition-colors"
+                    className="text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 transition-colors"
                   >
-                    <Play className="w-3 h-3" />
+                    <Play className="w-3.5 h-3.5 fill-indigo-400/30" />
                     <span>{isPlayingTestAudio ? 'Speaking...' : 'Test Voice'}</span>
                   </button>
                 </div>
@@ -451,7 +451,7 @@ export function FakeCallModal() {
                       key={idx}
                       type="button"
                       onClick={() => setMessageInput(script.text)}
-                      className="px-2.5 py-1 rounded-xl bg-muted/60 hover:bg-muted text-[10px] font-bold text-muted-foreground hover:text-foreground border border-border whitespace-nowrap shrink-0 transition-colors"
+                      className="px-2.5 py-1 rounded-xl bg-slate-950/70 hover:bg-slate-800 text-[11px] font-semibold text-slate-300 hover:text-white border border-slate-800 whitespace-nowrap shrink-0 transition-colors"
                     >
                       {script.label}
                     </button>
@@ -463,19 +463,19 @@ export function FakeCallModal() {
                   value={messageInput}
                   onChange={(e) => setMessageInput(e.target.value)}
                   placeholder="What the caller will say when you answer..."
-                  className="w-full px-3.5 py-2 rounded-xl border border-border bg-background text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white text-xs sm:text-sm focus:outline-none focus:border-indigo-500 resize-none font-medium placeholder-slate-500"
                 />
               </div>
 
               {/* Ringtone Sound & Voice Settings */}
-              <div className="p-3 rounded-2xl bg-muted/30 border border-border flex items-center justify-between gap-3">
+              <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-xl bg-primary/10 text-primary">
+                  <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                     <BellRing className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold block">Realistic Ringtone Audio</span>
-                    <span className="text-[10px] text-muted-foreground">Play continuous dual-tone phone ring</span>
+                    <span className="text-xs font-bold text-white block">Realistic Ringtone Audio</span>
+                    <span className="text-[11px] text-slate-400">Play continuous dual-tone phone ring</span>
                   </div>
                 </div>
 
@@ -486,17 +486,17 @@ export function FakeCallModal() {
                     onChange={(e) => setRingtoneEnabled(e.target.checked)}
                     className="sr-only peer"
                   />
-                  <div className="w-10 h-6 bg-muted peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                  <div className="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
                 </label>
               </div>
             </div>
 
             {/* Sticky Actions Footer */}
-            <div className="flex items-center gap-2.5 pt-4 border-t border-border shrink-0">
+            <div className="flex items-center gap-2.5 pt-4 border-t border-slate-800 shrink-0">
               <button
                 type="button"
                 onClick={() => handleScheduleOrTrigger(true)}
-                className="px-4 py-3 rounded-2xl bg-muted hover:bg-muted/80 text-foreground font-bold text-xs sm:text-sm transition-all active:scale-95"
+                className="px-4 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-bold text-xs sm:text-sm border border-slate-700 transition-all active:scale-95"
               >
                 Instant Ring
               </button>
@@ -504,7 +504,7 @@ export function FakeCallModal() {
               <button
                 type="button"
                 onClick={() => handleScheduleOrTrigger(false)}
-                className="flex-1 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition-all hover:scale-[1.01] active:scale-95"
+                className="flex-1 py-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-rose-600 hover:from-indigo-500 hover:to-rose-500 text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition-all hover:scale-[1.01] active:scale-95"
               >
                 <Phone className="w-4 h-4" />
                 <span>
