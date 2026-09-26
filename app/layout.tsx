@@ -41,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark overflow-x-hidden">
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#020617" />
@@ -56,7 +56,7 @@ export default function RootLayout({
           crossOrigin="" 
         />
       </head>
-      <body className="min-h-screen bg-slate-950 text-slate-100 flex flex-col antialiased selection:bg-rose-600 selection:text-white">
+      <body className="min-h-screen bg-slate-950 text-slate-100 flex flex-col antialiased selection:bg-rose-600 selection:text-white overflow-x-hidden">
         <AuthProvider>
           <AppProvider>
             {/* Native Mobile Lifecycle & Permissions Initializer */}
